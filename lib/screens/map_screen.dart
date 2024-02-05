@@ -7,8 +7,8 @@ class MapScreen extends StatefulWidget {
   final bool isReadonly;
   const MapScreen(
       {this.initialLocation = const PlaceLocation(
-        latitude: 37.419857,
-        longitude: -122.078827,
+        latitude: -20.480168447020752,
+        longitude: -54.60436849485835,
       ),
       this.isReadonly = false,
       super.key});
@@ -37,7 +37,7 @@ class _MapScreenState extends State<MapScreen> {
         actions: <Widget>[
           if (!widget.isReadonly)
             IconButton(
-                icon: Icon(Icons.check),
+                icon: const Icon(Icons.check),
                 onPressed: _pickedPosition == null
                     ? null
                     : () {
@@ -61,7 +61,7 @@ class _MapScreenState extends State<MapScreen> {
             ? {}
             : {
                 Marker(
-                  markerId: MarkerId('p1'),
+                  markerId: const MarkerId('p1'),
                   position: _pickedPosition!,
                 )
               },

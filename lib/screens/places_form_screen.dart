@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:localiza/providers/great_places.dart';
 import 'package:localiza/widgets/image_input.dart';
 import 'package:localiza/widgets/location_input.dart';
@@ -17,20 +18,34 @@ class PlaceFormScreen extends StatefulWidget {
 
 class _PlaceFormScreenState extends State<PlaceFormScreen> {
   final _titleController = TextEditingController();
-  File _pickedImage = File('');
+  File? _pickedImage;
+  LatLng? _pickedPosition;
 
   void _selectImage(File pickedImage) {
-    _pickedImage = pickedImage;
+    setState(() {
+      _pickedImage = pickedImage;
+    });
+  }
+
+  void _selectPosition(LatLng position) {
+    setState(() {
+      _pickedPosition = position;
+    });
+  }
+
+  bool _isValidForm() {
+    return _titleController.text.isNotEmpty &&
+        _pickedImage != null &&
+        _pickedPosition != null;
   }
 
   void _submitForm() {
-    if (_titleController.text.isEmpty || _pickedImage == null) {
-      return;
-    }
+    if (!_isValidForm()) return;
 
     Provider.of<GreatPlaces>(context, listen: false).addPlace(
       _titleController.text,
-      _pickedImage,
+      _pickedImage!,
+      _pickedPosition!,
     );
 
     Navigator.of(context).pop();
@@ -67,21 +82,21 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const LocationInput(),
+                    LocationInput(_selectPosition),
                   ],
                 ),
               ),
             ),
           ),
           ElevatedButton.icon(
-            onPressed: _submitForm,
             icon: const Icon(Icons.add),
             label: const Text('Adicionar'),
             style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(
-                  Colors.black), // Define a cor do texto
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.yellow.shade700),
+              foregroundColor: _isValidForm() ?MaterialStateProperty.all<Color>(
+                  Colors.black) : null, // Define a cor do texto
+              backgroundColor: _isValidForm()
+                  ? MaterialStateProperty.all<Color>(Colors.yellow.shade700)
+                  : null,
               elevation: MaterialStateProperty.all<double?>(0),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               side: MaterialStateProperty.all<BorderSide>(BorderSide.none),
@@ -91,6 +106,7 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
               }),
               // Define a cor de fundo
             ),
+            onPressed: _isValidForm() ? _submitForm : null,
           )
         ],
       ),
