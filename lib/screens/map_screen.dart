@@ -34,6 +34,17 @@ class _MapScreenState extends State<MapScreen> {
           'Selecione...',
           style: TextStyle(color: Colors.white),
         ),
+        actions: <Widget>[
+          if (!widget.isReadonly)
+            IconButton(
+                icon: Icon(Icons.check),
+                onPressed: _pickedPosition == null
+                    ? null
+                    : () {
+                        Navigator.of(context).pop(_pickedPosition);
+                      },
+              )
+        ],
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Theme.of(context).primaryColor,
       ),

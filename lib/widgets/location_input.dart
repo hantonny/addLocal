@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison, prefer_final_fields
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:localiza/screens/map_screen.dart';
 import 'package:localiza/utils/location_util.dart';
 import 'package:location/location.dart';
@@ -13,7 +14,7 @@ class LocationInput extends StatefulWidget {
 }
 
 class _LocationInputState extends State<LocationInput> {
-  String _previewImageUrl = '';
+  String? _previewImageUrl;
 
   Future<void> _getCurrentUserLocation() async {
     final locData = await Location().getLocation();
@@ -28,15 +29,15 @@ class _LocationInputState extends State<LocationInput> {
   }
 
   Future<void> _selectOnMap() async {
-    final selectedLocation = await Navigator.of(context).push(
+    final LatLng selectedPosition = await Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (ctx) => const MapScreen(),
       ),
     );
-    if (selectedLocation == null) return;
+    if (selectedPosition == null) return;
 
-
+    print(selectedPosition.latitude);
   }
 
   @override
@@ -53,10 +54,10 @@ class _LocationInputState extends State<LocationInput> {
               color: Colors.grey,
             ),
           ),
-          child: _previewImageUrl == ''
+          child: _previewImageUrl == null
               ? const Text('Localização não informada!')
               : Image.network(
-                  _previewImageUrl,
+                  _previewImageUrl!,
                   fit: BoxFit.cover,
                   width: double.infinity,
                 ),
