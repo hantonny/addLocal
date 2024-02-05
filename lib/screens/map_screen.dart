@@ -37,13 +37,13 @@ class _MapScreenState extends State<MapScreen> {
         actions: <Widget>[
           if (!widget.isReadonly)
             IconButton(
-                icon: const Icon(Icons.check),
-                onPressed: _pickedPosition == null
-                    ? null
-                    : () {
-                        Navigator.of(context).pop(_pickedPosition);
-                      },
-              )
+              icon: const Icon(Icons.check),
+              onPressed: _pickedPosition == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop(_pickedPosition);
+                    },
+            )
         ],
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Theme.of(context).primaryColor,
@@ -57,12 +57,13 @@ class _MapScreenState extends State<MapScreen> {
           zoom: 13,
         ),
         onTap: widget.isReadonly ? null : _selectPosition,
-        markers: _pickedPosition == null
+        markers: (_pickedPosition == null && !widget.isReadonly)
             ? {}
             : {
                 Marker(
                   markerId: const MarkerId('p1'),
-                  position: _pickedPosition!,
+                  position:
+                      _pickedPosition ?? widget.initialLocation.toLatLng(),
                 )
               },
       ),

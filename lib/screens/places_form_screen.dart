@@ -73,7 +73,12 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
                   children: [
                     TextField(
                       controller: _titleController,
-                      decoration: const InputDecoration(labelText: 'Titulo'),
+                      decoration: const InputDecoration(
+                        labelText: 'Título',
+                      ),
+                      onChanged: (text) {
+                        setState(() {});
+                      },
                     ),
                     const SizedBox(
                       height: 10,
@@ -92,8 +97,9 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
             icon: const Icon(Icons.add),
             label: const Text('Adicionar'),
             style: ButtonStyle(
-              foregroundColor: _isValidForm() ?MaterialStateProperty.all<Color>(
-                  Colors.black) : null, // Define a cor do texto
+              foregroundColor: _isValidForm()
+                  ? MaterialStateProperty.all<Color>(Colors.black)
+                  : null, // Define a cor do texto
               backgroundColor: _isValidForm()
                   ? MaterialStateProperty.all<Color>(Colors.yellow.shade700)
                   : null,

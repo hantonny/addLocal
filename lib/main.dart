@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localiza/providers/great_places.dart';
+import 'package:localiza/screens/place_detail_screen.dart';
 import 'package:localiza/screens/places_form_screen.dart';
 import 'package:localiza/screens/places_list_screen.dart';
 import 'package:localiza/utils/app_routes.dart';
@@ -25,7 +26,10 @@ class MyApp extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.white),
         ),
         home: const PlacesListScreen(),
-        routes: {AppRoutes.PLACE_FORM: (ctx) => const PlaceFormScreen()},
+        routes: {
+          AppRoutes.PLACE_FORM: (ctx) => const PlaceFormScreen(),
+          AppRoutes.PLACE_DETAIL: (ctx) => const PlaceDetailScreen()
+        },
       ),
     );
   }
